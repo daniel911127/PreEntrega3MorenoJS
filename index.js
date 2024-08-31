@@ -53,23 +53,22 @@ function menu(){
             break
         default:
             alert("Opción no válida")
-            menu()
+            
     }
     } while(opcion!=5)
     
 }
 
 function mostrarProductos(){
-    let listaProductos=""
-    
-    for(let i=0; i<Products.length; i++){
-        if(Products[i].activo==true){
-           
-            let preciofinal=Products[i].descuento?aplicarDescuento(Products[i].precio):Products[i].precio
-            listaProductos+=Products[i].id+". "+Products[i].nombre+" "+preciofinal.toFixed(2)+"\n"
-        }
-    }
-    alert(listaProductos)
+    const listaProductos = Products
+        .filter(producto => producto.activo)
+        .map(producto => {
+            const precioFinal = producto.descuento ? aplicarDescuento(producto.precio) : producto.precio;
+            return `${producto.id}. ${producto.nombre} ${precioFinal.toFixed(2)}`;
+        })
+        .join("\n");
+
+    alert(listaProductos);
 }
 
 function aplicarDescuento(precio){
@@ -81,7 +80,8 @@ function agregarProducto(){
     let nombre=prompt("Ingrese el nombre del producto")
     let precio=parseFloat(prompt("Ingrese el precio del producto"))
     let descuento=prompt("El producto tiene descuento? (S/N)").toUpperCase()=="S"?true:false
-    let producto=new Productos(id, nombre, precio, descuento)
+    let activo=true
+    let producto=new Productos(id, nombre, precio, descuento,activo)
     Products.push(producto)
     alert("Producto agregado correctamente")
  }
@@ -97,14 +97,15 @@ function agregarProducto(){
         }
     }
 
-    function inactivarProducto(){
-        let id=parseInt(prompt("Ingrese el id del producto a inactivar"))
-        for(let i=0; i<Products.length; i++){
-            if(Products[i].id==id){
-                Products[i].activo=false
-                alert("Producto inactivado correctamente")
-            }
-        }
+    function inactivarProducto() {
+        const id = parseInt(prompt("Ingrese el id del producto a inactivar"));
+    
+        Products
+            .filter(producto => producto.id === id)
+            .forEach(producto => {
+                producto.activo = false;
+                alert("Producto inactivado correctamente");
+            });
     }
 
 
