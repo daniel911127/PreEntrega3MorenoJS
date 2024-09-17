@@ -1,0 +1,78 @@
+nav{
+  padding: 0;
+}
+.logo{
+  padding: 0;
+}
+ul{
+  list-style: none;
+}
+
+.contenido{
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.carrusel{
+  display: flex;
+  width: 600px;
+  height: 430px;
+}
+.carrusel img{
+  width: 0px;
+  flex-grow: 1;
+  object-fit: cover;
+  opacity: .8;
+  transition: .5s ease;
+}
+.carrusel img:hover{
+  cursor:zoom-in;
+  width: 300px;
+  opacity: 1;
+  filter: contrast(120%);
+}
+.contenidoPresentacion{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contenidoImagen{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.presentacion{
+  border-radius: 40%;
+}
+.cardProducto{
+  border-radius: 25px;
+}
+.imagenProducto{
+  height: 250px;
+  object-fit: contain;
+}
+.imagenCarrito{
+  height: 200px;
+  object-fit: contain;
+  width: 500px;
+}
+.comprar{
+  background-color: white;
+  border-radius: 10px;
+  width: 150px;
+  margin-left:27%;
+}
+.agregar{
+  background-color:orange;
+  color:rgb(0, 0, 0)
+}
+@media(max-width:576px){
+  .menuUser{
+    flex-direction: column;
+  }
+  .menuUser li{
+    margin-bottom: 15px;
+  }
+} 

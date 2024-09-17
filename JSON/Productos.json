@@ -1,0 +1,42 @@
+[
+  {
+  "id":1,  
+  "nombre":"Zapatillas Nike",
+  "precio":80,
+  "categoria":"calzado",
+  "cantidad":20,
+  "imagenUrl":"../assets/zapatillasNike.jpeg",
+  "descuento":true,
+  "activo":true
+},
+{
+  "id":2, 
+  "nombre":"Reloj CASIO",
+  "precio":30,
+  "categoria":"accesorios",
+  "cantidad":12,
+  "imagenUrl":"../assets/relojCasio.jpg",
+  "descuento":true,
+  "activo":true
+},
+{
+  "id":3, 
+  "nombre":"Camiseta Adidas",
+  "precio":60,
+  "categoria":"ropa",
+  "cantidad":10,
+  "imagenUrl":"../assets/camisetaAdidas.jpeg",
+  "descuento":true,
+  "activo":true
+},
+{
+  "id":4, 
+  "nombre":"Reloj ROLEX",
+  "precio":200,
+  "categoria":"accesorios",
+  "cantidad":15,
+  "imagenUrl":"../assets/relojRolex.jpg",
+  "descuento":true,
+  "activo":true
+}
+]
