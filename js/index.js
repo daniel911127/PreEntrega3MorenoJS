@@ -114,7 +114,8 @@ function agregarProducto(listaProductos){
     let categoria=prompt("Ingrese la categoria del producto")
     let imagenUrl=prompt("Ingrese la url de la imagen del producto")
     let cantidad=parseInt(prompt("Ingrese la cantidad de productos"))
-    let producto=new Productos(id, nombre, precio, descuento,activo,categoria,imagenUrl,cantidad)
+    const preciofinal=descuento == true? aplicarDescuento(precio) : precio;
+    let producto=new Productos(id, nombre, preciofinal.toFixed(2), descuento,activo,categoria,imagenUrl,cantidad)
     listaProductos.push(producto)
 
     let store = JSON.stringify(listaProductos);
