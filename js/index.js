@@ -12,21 +12,8 @@ function Productos(id, nombre, precio, descuento, activo, categoria, imagen, can
     this.imagen=imagen
     this.cantidad=cantidad
 }
-//console.log(productos)
-
-// const producto1=new Productos(1, "Camiseta Puma", 123.45, true,true)
-// const producto2=new Productos(2, "Tennis Adidas", 234.56, false, true) 
-// const producto3=new Productos(3, "Pantaloneta Under Armour", 85.67, true, true)
-// const producto4=new Productos(4, "Tennis Diadora", 156.78, false, true)
 
 let Products=[]
-
-// Products.push(producto1)
-// Products.push(producto2)
-// Products.push(producto3)
-// Products.push(producto4)
-
-// console.log(Products)
 
 let productos=[];
 let datos;
