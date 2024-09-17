@@ -2,14 +2,14 @@
 // 1. ../assets/camisetaAdidas2.jpg
 // 2. ../assets/zapatillasNike.jpg
 
-function Productos(id, nombre, precio, descuento, activo, categoria, imagen, cantidad ){
+function Productos(id, nombre, precio, descuento, activo, categoria, imagenUrl, cantidad ){
     this.id=id
     this.nombre=nombre
     this.precio=precio
     this.descuento=descuento
     this.activo=activo
     this.categoria=categoria
-    this.imagen=imagen
+    this.imagenUrl=imagenUrl
     this.cantidad=cantidad
 }
 
@@ -112,9 +112,9 @@ function agregarProducto(listaProductos){
     let descuento=prompt("El producto tiene descuento? (S/N)").toUpperCase()=="S"?true:false
     let activo=true
     let categoria=prompt("Ingrese la categoria del producto")
-    let imagen=prompt("Ingrese la url de la imagen del producto")
+    let imagenUrl=prompt("Ingrese la url de la imagen del producto")
     let cantidad=parseInt(prompt("Ingrese la cantidad de productos"))
-    let producto=new Productos(id, nombre, precio, descuento,activo,categoria,imagen,cantidad)
+    let producto=new Productos(id, nombre, precio, descuento,activo,categoria,imagenUrl,cantidad)
     listaProductos.push(producto)
 
     let store = JSON.stringify(listaProductos);
