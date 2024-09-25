@@ -64,9 +64,7 @@ const pedirDatos = async () => {
   pedirDatos();
 
   let data = JSON.parse(localStorage.getItem('productos'));
-  alert(
-    'para una mejor experiancia en el proceso de agregar productos use en el prompt de imagen cualquiera de las 2 rutas que aparecen en el main.js en la linea 1'
-  );
+
   let producto;
   for (const product of data) {
     producto = new Productos(
@@ -82,40 +80,32 @@ const pedirDatos = async () => {
     productos.push(producto);
   }
 
-  console.log(productos);
+  console.log("Estos son los productos",productos);
 
   const storage = localStorage.getItem('productos');
 const parse = JSON.parse(storage);
 
-// function mostrarProductos(){
-//     const listaProductos = Products
-//         .filter(producto => producto.activo)
-//         .map(producto => {
-//             const precioFinal = producto.descuento ? aplicarDescuento(producto.precio) : producto.precio;
-//             return `${producto.id}. ${producto.nombre} ${precioFinal.toFixed(2)}`;
-//         })
-//         .join("\n");
-
-//     alert(listaProductos);
-// }
 
 function aplicarDescuento(precio){
    return precio*0.90
 }
 
-let agregar = document.getElementById('agregar');
 
 function agregarProducto(listaProductos){
+  
     let id=listaProductos.length+1
-    let nombre=prompt("Ingrese el nombre del producto")
-    let precio=parseFloat(prompt("Ingrese el precio del producto"))
-    let descuento=prompt("El producto tiene descuento? (S/N)").toUpperCase()=="S"?true:false
+    let nombre=document.getElementById('nombre').value
+    let precio=parseFloat(document.getElementById('precio').value)
+    let descuento=document.getElementById('descuento').value.toLowerCase() === 's' ? true : false
     let activo=true
-    let categoria=prompt("Ingrese la categoria del producto")
-    let imagenUrl=prompt("Ingrese la url de la imagen del producto")
-    let cantidad=parseInt(prompt("Ingrese la cantidad de productos"))
-    const preciofinal=descuento == true? aplicarDescuento(precio) : precio;
+    let categoria=document.getElementById('categoria').value
+    let imagen=document.getElementById('imagen')
+    let cantidad= parseInt(document.getElementById('cantidad').value)
+    const preciofinal=descuento == true? aplicarDescuento(precio) : precio
+    let imagenUrl = URL.createObjectURL(imagen.files[0])
+
     let producto=new Productos(id, nombre, preciofinal.toFixed(2), descuento,activo,categoria,imagenUrl,cantidad)
+    console.log(producto)  
     listaProductos.push(producto)
 
     let store = JSON.stringify(listaProductos);
@@ -128,9 +118,14 @@ function agregarProducto(listaProductos){
   mostrarProductos(productoLS);
  }
 
- agregar.addEventListener('click', () =>
-    storage == null ? agregarProducto(productos) : agregarProducto(parse)
-  );
+ document.addEventListener('DOMContentLoaded',()=>{
+   let crear = document.getElementById('crear');
+   
+   crear.addEventListener('click', (event) =>{
+     event.preventDefault();
+     storage == null ? agregarProducto(productos) : agregarProducto(parse)
+   });
+ })
 
     function eliminarProducto(){
         let id=parseInt(prompt("Ingrese el id del producto a eliminar"))
@@ -170,7 +165,9 @@ storage == null ? mostrarProductos(productos) : mostrarProductos(parse);
 
 function mostrarProductos(array) {
   containerProductos.innerHTML = '';
+
   for (const product of array) {
+    let precioFinal=product.descuento == true? aplicarDescuento(product.precio) : product.precio;
     const card = document.createElement('div');
     card.classList.add(
       'card',
@@ -186,7 +183,7 @@ function mostrarProductos(array) {
         <h5 class="card-title d-flex justify-content-center">${product.nombre}</h5>
         <p class="card-text d-flex justify-content-center">Categoría: ${product.categoria}</p>
         <p class="card-text d-flex justify-content-center">Cantidad: ${product.cantidad}</p>
-        <p class="card-text d-flex justify-content-center">Precio: $${product.precio}</p>
+        <p class="card-text d-flex justify-content-center">Precio: $${precioFinal}</p>
         <input id="comprar" type="submit" value="Comprar" class="d-flex justify-content-center comprar"/>
       </div>
     `;
@@ -194,5 +191,5 @@ function mostrarProductos(array) {
   }
 }
 
-menu()
+//menu()
 
