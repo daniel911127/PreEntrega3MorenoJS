@@ -127,36 +127,38 @@ function agregarProducto(listaProductos){
    });
  })
 
-    function eliminarProducto(){
-        let id=parseInt(prompt("Ingrese el id del producto a eliminar"))
-        let index=Products.findIndex(producto=>producto.id==id)
-        if(index!=-1){
-            Products.splice(index, 1)
-            alert("Producto eliminado correctamente")
-        }else{
-            alert("Producto no encontrado")
-        }
+    function eliminarProducto(id){
+      let index = productos.findIndex(producto => producto.id == id);
+      if (index != -1) {
+        productos.splice(index, 1); 
+        localStorage.setItem('productos', JSON.stringify(productos)); 
+        console.log("Producto eliminado correctamente");
+        mostrarProductos(productos); 
+      } else {
+        console.log("Producto no encontrado");
+      }
     }
 
-    function inactivarProducto() {
-        const id = parseInt(prompt("Ingrese el id del producto a inactivar"));
-    
-        Products
-            .filter(producto => producto.id === id)
-            .forEach(producto => {
-                producto.activo = false;
-                alert("Producto inactivado correctamente");
-            });
+    function inactivarProducto(id) {
+      let producto = productos.find(producto => producto.id === id);
+      if (producto) {
+        producto.activo = false; 
+        localStorage.setItem('productos', JSON.stringify(productos));
+        console.log("Producto inactivado correctamente");
+        mostrarProductos(productos); 
+      } else {
+        console.log("Producto no encontrado");
+      }
     }
 
-    function mostrarProductoPorId(){
+    function mostrarProductoPorId(id){
         const id = parseInt(prompt("Ingrese el id del producto que quiere ver"));
         const producto = Products.find(producto => producto.id === id);
         if (!producto) {
-            alert("Producto no encontrado");
+            console.log("Producto no encontrado");
         }
             const precioFinal = producto.descuento ? aplicarDescuento(producto.precio) : producto.precio;
-            alert(`${producto.id}. ${producto.nombre} ${precioFinal.toFixed(2)}`);
+            console.log(`${producto.id}. ${producto.nombre} ${precioFinal.toFixed(2)}`);
     }
 
     let containerProductos = document.getElementById('productos');
@@ -184,11 +186,37 @@ function mostrarProductos(array) {
         <p class="card-text d-flex justify-content-center">Categoría: ${product.categoria}</p>
         <p class="card-text d-flex justify-content-center">Cantidad: ${product.cantidad}</p>
         <p class="card-text d-flex justify-content-center">Precio: $${precioFinal}</p>
-        <input id="comprar" type="submit" value="Comprar" class="d-flex justify-content-center comprar"/>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-danger eliminarProducto" data-id="${product.id}">Eliminar</button>
+          <button class="btn btn-warning inactivarProducto" data-id="${product.id}">Inactivar</button>
+          <button class="btn btn-info mostrarProducto" data-id="${product.id}">Detalles</button>
+          <button class="btn btn-success comprarProducto" data-id="${product.id}">Comprar</button>
+        </div>
       </div>
     `;
     containerProductos.appendChild(card);
   }
+
+  document.querySelectorAll('.eliminarProducto').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const id = event.target.getAttribute('data-id');
+      eliminarProducto(parseInt(id));
+    });
+  });
+
+  document.querySelectorAll('.inactivarProducto').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const id = event.target.getAttribute('data-id');
+      inactivarProducto(parseInt(id));
+    });
+  });
+
+  document.querySelectorAll('.mostrarProducto').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const id = event.target.getAttribute('data-id');
+      mostrarProductoPorId(parseInt(id));
+    });
+  });
 }
 
 //menu()
