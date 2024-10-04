@@ -152,7 +152,6 @@ function agregarProducto(listaProductos){
     }
 
     function mostrarProductoPorId(id){
-        const id = parseInt(prompt("Ingrese el id del producto que quiere ver"));
         const producto = Products.find(producto => producto.id === id);
         if (!producto) {
             console.log("Producto no encontrado");
