@@ -18,40 +18,7 @@ let Products=[]
 let productos=[];
 let datos;
 
-function menu(){
-    let opcion
-    
-    do{
-        opcion=parseInt(prompt("Seleccione una opción: \n 1. Mostrar productos \n 2. Agregar producto \n 3. Eliminar producto \n 4. Inactivar Producto \n 5. Mostrar un producto \n 6. Salir"))
-    switch(opcion){
-        case 1:
-            mostrarProductos()
-            break
-        case 2:
-            agregarProducto()
-            break
-        case 3:
-            eliminarProducto()
-            break
-        case 4:
-            inactivarProducto()
-            break
-            case 4:
-            inactivarProducto()
-            break
-            case 5:
-            mostrarProductoPorId()
-            break
-        case 6:
-            alert("Gracias por usar nuestro sistema")
-            break
-        default:
-            alert("Opción no válida")
-            
-    }
-    } while(opcion!=6)
-    
-}
+
 
 const pedirDatos = async () => {
     let peticion = await fetch('../JSON/Productos.json');
@@ -59,7 +26,7 @@ const pedirDatos = async () => {
   
     datos = JSON.stringify(dataParser);
     localStorage.setItem('productos', datos);
-  };
+  };       
 
   pedirDatos();
 
@@ -74,8 +41,8 @@ const pedirDatos = async () => {
       product.descuento,
       product.activo,
       product.categoria,
+      product.imagenUrl,
       product.cantidad,
-      product.imagenUrl
     );
     productos.push(producto);
   }
@@ -109,8 +76,13 @@ function agregarProducto(listaProductos){
     listaProductos.push(producto)
 
     let store = JSON.stringify(listaProductos);
-  alert('Producto Agregado!!');
-  console.log('Producto agregado', listaProductos);
+    
+    Swal.fire({
+      title: 'Producto agregado!',
+      text: 'El producto se agregó correctamente',
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    });
 
   localStorage.setItem('productos', store);
   let productoLS = JSON.parse(localStorage.getItem('productos'));
@@ -128,27 +100,62 @@ function agregarProducto(listaProductos){
  })
 
     function eliminarProducto(id){
-      let index = productos.findIndex(producto => producto.id == id);
-      if (index != -1) {
-        productos.splice(index, 1); 
-        localStorage.setItem('productos', JSON.stringify(productos)); 
-        console.log("Producto eliminado correctamente");
-        mostrarProductos(productos); 
-      } else {
-        console.log("Producto no encontrado");
-      }
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let index = productos.findIndex(producto => producto.id == id);
+            if (index != -1) {
+                productos.splice(index, 1); 
+                localStorage.setItem('productos', JSON.stringify(productos)); 
+
+                Swal.fire(
+                    'Eliminado!',
+                    'El producto ha sido eliminado.',
+                    'success'
+                );
+                mostrarProductos(productos); // Refrescamos la lista de productos
+            } else {
+                Swal.fire('Error', 'Producto no encontrado', 'error');
+            }
+        }
+    });
     }
 
     function inactivarProducto(id) {
-      let producto = productos.find(producto => producto.id === id);
-      if (producto) {
-        producto.activo = false; 
-        localStorage.setItem('productos', JSON.stringify(productos));
-        console.log("Producto inactivado correctamente");
-        mostrarProductos(productos); 
-      } else {
-        console.log("Producto no encontrado");
-      }
+      Swal.fire({
+        title: '¿Deseas inactivar este producto?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, inactivar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let producto = productos.find(producto => producto.id === id);
+            if (producto) {
+                producto.activo = false; 
+                localStorage.setItem('productos', JSON.stringify(productos));
+
+                Swal.fire(
+                    'Inactivado!',
+                    'El producto ha sido inactivado.',
+                    'success'
+                );
+                mostrarProductos(productos); // Refrescamos la lista de productos
+            } else {
+                Swal.fire('Error', 'Producto no encontrado', 'error');
+            }
+        }
+    });
     }
 
     function mostrarProductoPorId(id){
@@ -218,5 +225,5 @@ function mostrarProductos(array) {
   });
 }
 
-//menu()
+
 
